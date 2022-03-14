@@ -1,0 +1,177 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <FileVersion>1.0.0.0</FileVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{642cfb44-3949-45df-82e9-0fb683207bf1}</ProjectGuid>
+    <SubObjectsSortedByName>True</SubObjectsSortedByName>
+    <DownloadApplicationInfo>true</DownloadApplicationInfo>
+    <WriteProductVersion>true</WriteProductVersion>
+    <GenerateTpy>false</GenerateTpy>
+    <Name>Untitled1</Name>
+    <ProgramVersion>3.1.4023.0</ProgramVersion>
+    <Application>{53f85217-4e59-4a6b-8d7c-38f473eae39e}</Application>
+    <TypeSystem>{fe3d87ed-7ad4-46c1-b6ca-1222dca59271}</TypeSystem>
+    <Implicit_Task_Info>{e49e4472-0d7e-4925-94ec-af52bf703bea}</Implicit_Task_Info>
+    <Implicit_KindOfTask>{1f71e692-d594-46a5-a4c5-78eb608e4042}</Implicit_KindOfTask>
+    <Implicit_Jitter_Distribution>{de2587a0-4dbd-4e85-80f6-6508a6ed8709}</Implicit_Jitter_Distribution>
+    <LibraryReferences>{bea52d7e-18b9-4cd3-a280-389b0af6f563}</LibraryReferences>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="PlcTask.TcTTO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FB_BaseDevice.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FB_Pneumatic.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FB_StateManager.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\F_RemoveProjectName.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\I_Device.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\I_Pneumatic.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\MAIN.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\ST_StateHistory.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\TON_PAUSE.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DUTs" />
+    <Folder Include="GVLs" />
+    <Folder Include="VISUs" />
+    <Folder Include="POUs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PlaceholderReference Include="Tc2_Standard">
+      <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_Standard</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_System">
+      <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_System</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_Utilities">
+      <DefaultResolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_Utilities</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_EventLogger">
+      <DefaultResolution>Tc3_EventLogger, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_EventLogger</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_Module">
+      <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_Module</Namespace>
+    </PlaceholderReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SubObject Include="FB_BaseDevice.alarm" />
+    <SubObject Include="FB_BaseDevice.alarmAds" />
+    <SubObject Include="FB_BaseDevice.alarmJson" />
+    <SubObject Include="FB_BaseDevice.busy" />
+    <SubObject Include="FB_BaseDevice.busy.Get" />
+    <SubObject Include="FB_BaseDevice.done" />
+    <SubObject Include="FB_BaseDevice.done.Get" />
+    <SubObject Include="FB_BaseDevice.error" />
+    <SubObject Include="FB_BaseDevice.error.Get" />
+    <SubObject Include="FB_BaseDevice.FB_init" />
+    <SubObject Include="FB_BaseDevice.id" />
+    <SubObject Include="FB_BaseDevice.id.Get" />
+    <SubObject Include="FB_BaseDevice.message" />
+    <SubObject Include="FB_BaseDevice.messageJson" />
+    <SubObject Include="FB_BaseDevice.ready" />
+    <SubObject Include="FB_BaseDevice.ready.Get" />
+    <SubObject Include="FB_BaseDevice.reset" />
+    <SubObject Include="FB_BaseDevice.sid" />
+    <SubObject Include="FB_BaseDevice.sid.Get" />
+    <SubObject Include="FB_Pneumatic.busy" />
+    <SubObject Include="FB_Pneumatic.busy.Get" />
+    <SubObject Include="FB_Pneumatic.cancel" />
+    <SubObject Include="FB_Pneumatic.done" />
+    <SubObject Include="FB_Pneumatic.done.Get" />
+    <SubObject Include="FB_Pneumatic.doWait" />
+    <SubObject Include="FB_Pneumatic.doWork" />
+    <SubObject Include="FB_Pneumatic.FB_init" />
+    <SubObject Include="FB_Pneumatic.first" />
+    <SubObject Include="FB_Pneumatic.isWait" />
+    <SubObject Include="FB_Pneumatic.isWait.Get" />
+    <SubObject Include="FB_Pneumatic.isWork" />
+    <SubObject Include="FB_Pneumatic.isWork.Get" />
+    <SubObject Include="FB_Pneumatic.tempCancel" />
+    <SubObject Include="FB_Pneumatic.tempContinue" />
+    <SubObject Include="FB_Pneumatic.wait" />
+    <SubObject Include="FB_Pneumatic.wait.Get" />
+    <SubObject Include="FB_Pneumatic.waitText" />
+    <SubObject Include="FB_Pneumatic.waitText.Get" />
+    <SubObject Include="FB_Pneumatic.waitText.Set" />
+    <SubObject Include="FB_Pneumatic.work" />
+    <SubObject Include="FB_Pneumatic.work.Get" />
+    <SubObject Include="FB_Pneumatic.workText" />
+    <SubObject Include="FB_Pneumatic.workText.Get" />
+    <SubObject Include="FB_Pneumatic.workText.Set" />
+    <SubObject Include="FB_StateManager.FB_init" />
+    <SubObject Include="FB_StateManager.stateTime" />
+    <SubObject Include="FB_StateManager.stateTime.Get" />
+    <SubObject Include="I_Device.busy" />
+    <SubObject Include="I_Device.busy.Get" />
+    <SubObject Include="I_Device.done" />
+    <SubObject Include="I_Device.done.Get" />
+    <SubObject Include="I_Device.error" />
+    <SubObject Include="I_Device.error.Get" />
+    <SubObject Include="I_Device.id" />
+    <SubObject Include="I_Device.id.Get" />
+    <SubObject Include="I_Device.ready" />
+    <SubObject Include="I_Device.ready.Get" />
+    <SubObject Include="I_Device.reset" />
+    <SubObject Include="I_Device.sid" />
+    <SubObject Include="I_Device.sid.Get" />
+    <SubObject Include="I_Pneumatic.cancel" />
+    <SubObject Include="I_Pneumatic.doWait" />
+    <SubObject Include="I_Pneumatic.doWork" />
+    <SubObject Include="I_Pneumatic.isWait" />
+    <SubObject Include="I_Pneumatic.isWait.Get" />
+    <SubObject Include="I_Pneumatic.isWork" />
+    <SubObject Include="I_Pneumatic.isWork.Get" />
+    <SubObject Include="I_Pneumatic.waitText" />
+    <SubObject Include="I_Pneumatic.waitText.Get" />
+    <SubObject Include="I_Pneumatic.waitText.Set" />
+    <SubObject Include="I_Pneumatic.workText" />
+    <SubObject Include="I_Pneumatic.workText.Get" />
+    <SubObject Include="I_Pneumatic.workText.Set" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Untitled1.tmc">
+      <SubType>Content</SubType>
+    </None>
+  </ItemGroup>
+  <ProjectExtensions>
+    <PlcProjectOptions>
+      <XmlArchive>
+  <Data>
+    <o xml:space="preserve" t="OptionKey">
+      <v n="Name">"&lt;ProjectRoot&gt;"</v>
+      <d n="SubKeys" t="Hashtable" />
+      <d n="Values" t="Hashtable" />
+    </o>
+  </Data>
+  <TypeList>
+    <Type n="Hashtable">System.Collections.Hashtable</Type>
+    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+    <Type n="String">System.String</Type>
+  </TypeList>
+</XmlArchive>
+    </PlcProjectOptions>
+  </ProjectExtensions>
+</Project>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <POU Name="TON_PAUSE" Id="{c2c91056-6988-476a-8b7a-6c548a2375e5}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TON_PAUSE
+VAR_INPUT
+	IN : BOOL;
+	PT : TIME;
+	PAUSE : BOOL;
+END_VAR
+VAR_OUTPUT
+	Q : BOOL;
+	ET : TIME;
+	CNT : UINT;
+END_VAR
+VAR
+	trig : R_TRIG;
+	tm : TON;
+	pauseTime : TIME;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[///////////////////////////////////////////////////////////////////////////////
+// TON_PAUSE
+//
+// v1.0.0
+//
+///////////////////////////////////////////////////////////////////////////////
+
+IF NOT IN THEN
+    pauseTime := T#0S;
+	CNT := 0;
+END_IF
+
+trig(CLK := IN AND PAUSE);
+IF trig.Q THEN
+    pauseTime := pauseTime + tm.ET;
+	CNT := CNT + 1;
+END_IF
+
+IF IN AND pauseTime >= PT THEN
+	Q := TRUE;
+	ET := PT;
+ELSE
+	tm(IN := IN AND NOT PAUSE, PT := PT - pauseTime);
+	Q := tm.Q;
+	ET := pauseTime + tm.ET;
+END_IF
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

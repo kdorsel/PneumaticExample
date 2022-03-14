@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <POU Name="FB_BaseDevice" Id="{be73e59d-4857-08fa-3e36-351227410420}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'reflection'}
+FUNCTION_BLOCK FB_BaseDevice IMPLEMENTS I_Device
+VAR_INPUT
+	safetyOK			: BOOL := TRUE;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	{attribute 'instance-path'} 
+    {attribute 'noinit'} 
+    _sid				: STRING(255);
+	_id					: WORD;
+	_it					: I_Device;
+
+	state				: INT;
+	SM					: FB_StateManager;
+	staleResetTm		: TON;
+	staleResetTime		: TIME := T#1S;
+	textState			: STRING(255) := 'Waiting for ready';
+
+	msg					: FB_TcMessage;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[///////////////////////////////////////////////////////////////////////////////
+// FB_BaseDevice
+//
+// v1.0.0
+//
+// busy: Defaults to false
+// done: Defaults to false
+// error: Defaults to state < 0
+// ready: Defaults to state >= 1000
+///////////////////////////////////////////////////////////////////////////////
+
+SM(state := state);
+staleResetTm(IN := state <= -1000, PT := staleResetTime);
+
+CASE state OF
+	0:
+		textState := 'Waiting for ready';
+	999:
+		textState := 'Idle';
+	1000:
+		textState := 'Running';
+	-1:
+		textState := 'Error';
+	-1000:
+		textState := 'Resetting';
+END_CASE
+]]></ST>
+    </Implementation>
+    <Method Name="alarm" Id="{547479bf-eb7a-0e41-38c3-d9036b80b96d}">
+      <Declaration><![CDATA[METHOD PROTECTED FINAL alarm : BOOL
+VAR_INPUT
+	evt	: TcEventEntry;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+alarm := alarmJson(evt, '');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="alarmAds" Id="{12a1f46f-4bcc-418f-bbbe-02ec89e48c4a}">
+      <Declaration><![CDATA[METHOD PROTECTED FINAL alarmAds : BOOL
+VAR_INPUT
+	errorId	: UDINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+state := -1;
+msg.Create(TC_EVENT_CLASSES.AdsEventClass, errorId, TcEventSeverity.Error, 0);
+msg.Send(0);
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="alarmJson" Id="{42163503-9fc5-4d79-bb03-d172f1f629b0}">
+      <Declaration><![CDATA[METHOD PROTECTED FINAL alarmJson : BOOL
+VAR_INPUT
+	evt	: TcEventEntry;
+	str	: STRING(255);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+state := -1;
+
+msg.CreateEx(evt, 0);
+IF len(str) > 0 THEN
+	msg.SetJsonAttribute(str);
+END_IF
+
+msg.Send(0);
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="busy" Id="{94db9ee7-d668-4770-be62-8756cd42f16a}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'variable'}
+PROPERTY busy : BOOL]]></Declaration>
+      <Get Name="Get" Id="{35be04ff-0615-4caa-9b01-e949f67434d5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+busy := FALSE;
+]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="done" Id="{2afd0192-49f4-4ef5-9a3c-93add18ec56f}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'variable'}
+PROPERTY done : BOOL]]></Declaration>
+      <Get Name="Get" Id="{0279e71b-27bb-4694-9cd9-444b6d88559d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+done := FALSE;
+]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="error" Id="{929ea1cf-9110-4108-98ea-1c70326ad33e}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'variable'}
+PROPERTY error : BOOL]]></Declaration>
+      <Get Name="Get" Id="{389bfdcc-eef7-4e60-8b5c-9617c918accc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+error := state < 0;
+]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="FB_init" Id="{99b621a9-3739-46f2-952f-366871f4a112}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+_sid := F_RemoveProjectName(_sid);
+_id := F_DATA_TO_CRC16_CCITT(ADR(_sid), TO_UDINT(len(_sid)), 0);
+_it := THIS^;
+{IF defined (variable: DH)}
+DH.pushDevice(_sid, THIS);
+{END_IF}
+
+// Call release to help if the FB is made persistent
+msg.Release();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="id" Id="{3a772f72-99ed-4183-809c-1dd6935b6e56}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'variable'}
+PROPERTY id : DWORD]]></Declaration>
+      <Get Name="Get" Id="{f4a9844d-2d4c-455d-8cd7-58941e8e7b5f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+id := _id;
+]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="message" Id="{c856483f-6003-096c-24f5-5d5be41b8fd2}">
+      <Declaration><![CDATA[METHOD PROTECTED FINAL message : BOOL
+VAR_INPUT
+	evt	: TcEventEntry;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+message := messageJson(evt, '');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="messageJson" Id="{530a4aab-fe06-4a3c-94c5-00cf43921cfe}">
+      <Declaration><![CDATA[METHOD PROTECTED FINAL messageJson : BOOL
+VAR_INPUT
+	evt	: TcEventEntry;
+	str	: STRING(255);
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+msg.CreateEx(evt, 0);
+IF len(str) > 0 THEN
+	msg.SetJsonAttribute(str);
+END_IF
+msg.Send(0);
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="ready" Id="{22fc3b10-1284-4368-bc38-fa18aa1d764b}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'variable'}
+PROPERTY ready : BOOL]]></Declaration>
+      <Get Name="Get" Id="{c86111bc-91d2-456c-ae0f-6aa8da48b550}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+ready := state >= 1000;
+]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="reset" Id="{a592e39e-1d9b-0362-1d77-fe72b83d0b78}">
+      <Declaration><![CDATA[METHOD FINAL reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF state > -1000 OR staleResetTm.Q THEN
+	staleResetTm(IN := FALSE);
+	state := -1000;
+END_IF
+reset := ready;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="sid" Id="{c5e28322-06de-4b54-bc30-afa6b52ad35f}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'variable'}
+PROPERTY FINAL sid : STRING(255)]]></Declaration>
+      <Get Name="Get" Id="{3f8c8da3-5d07-48ab-9fe5-fd02f15544d8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+sid := _sid;
+]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

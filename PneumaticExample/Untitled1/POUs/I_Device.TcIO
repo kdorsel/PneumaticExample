@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <Itf Name="I_Device" Id="{2fc5a503-fdad-4768-a08e-f93f94c2babe}">
+    <Declaration><![CDATA[INTERFACE I_Device EXTENDS __SYSTEM.IQueryInterface 
+]]></Declaration>
+    <Property Name="busy" Id="{b4eb8c30-02d8-47f0-bb8a-7a55e4b4fc0a}">
+      <Declaration><![CDATA[PROPERTY busy : BOOl]]></Declaration>
+      <Get Name="Get" Id="{3241c714-7662-4c29-bfc8-17d565d8c38c}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="done" Id="{cdb3fbf0-8d39-42e6-98f9-0edd27d42dde}">
+      <Declaration><![CDATA[PROPERTY done : BOOl]]></Declaration>
+      <Get Name="Get" Id="{abbb6683-c3de-4a90-ae46-f942ab099e08}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="error" Id="{0f6e5059-0bc6-4c27-a25e-34282f0546b3}">
+      <Declaration><![CDATA[PROPERTY error : BOOl]]></Declaration>
+      <Get Name="Get" Id="{08004633-c587-4ea2-8c3a-b4bc760519dc}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="id" Id="{b14a437d-9ce8-4776-9e9d-ed3e5979b12a}">
+      <Declaration><![CDATA[PROPERTY id : DWORD]]></Declaration>
+      <Get Name="Get" Id="{f9463c8b-2fbc-467e-a25e-5fd4cfe161c3}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="ready" Id="{b5d6fcfd-8511-4477-a34e-7cbba0562119}">
+      <Declaration><![CDATA[PROPERTY ready : BOOl]]></Declaration>
+      <Get Name="Get" Id="{00534eea-c00f-40b6-a599-6fa8e6c4ad94}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Method Name="reset" Id="{286e3c18-0d10-4da5-b240-a9affe0a31c2}">
+      <Declaration><![CDATA[METHOD reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="sid" Id="{038e55bf-4b28-42cf-ba92-157227d63ae5}">
+      <Declaration><![CDATA[PROPERTY sid : STRING(255)]]></Declaration>
+      <Get Name="Get" Id="{fb6b78ad-ba49-48a5-8915-b4c286f259ec}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

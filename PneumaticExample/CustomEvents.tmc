@@ -1,0 +1,776 @@
+<?xml version="1.0"?>
+<TcModuleClass>
+	<DataTypes>
+		<DataType>
+			<Name GUID="{26E55C55-7B28-4AF4-BB2F-5DCECD40609E}" Namespace="Summo" PersistentType="true">LaserHeadEventClass</Name>
+			<DisplayName TxtId=""><![CDATA[Laser Head]]></DisplayName>
+			<EventId>
+				<Name Id="1">HeadNotExtended</Name>
+				<DisplayName TxtId=""><![CDATA[Head not extended]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">HitRetractLimit</Name>
+				<DisplayName TxtId=""><![CDATA[Hit retract limit]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="3">CalibrationFault</Name>
+				<DisplayName TxtId=""><![CDATA[Calibration fault]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="4">ExtendingWatchdog</Name>
+				<DisplayName TxtId=""><![CDATA[Extending watchdog timeout]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="5">RetractingWatchdog</Name>
+				<DisplayName TxtId=""><![CDATA[Retracting watchdog timeout]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="6">TempWatchdog</Name>
+				<DisplayName TxtId=""><![CDATA[Temperature watchdog timeout]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="7">OverTempMirror</Name>
+				<DisplayName TxtId=""><![CDATA[Over temp mirror]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="8">OverTempFocus</Name>
+				<DisplayName TxtId=""><![CDATA[Over temp focus lens and nozzle assembly]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="9">OverTempElectronics</Name>
+				<DisplayName TxtId=""><![CDATA[Over temp electronics]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="10">TempError</Name>
+				<DisplayName TxtId=""><![CDATA[Temp error]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="11">NotCentered</Name>
+				<DisplayName TxtId=""><![CDATA[Not centered]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="12">HitLimitWhileRetract</Name>
+				<DisplayName TxtId=""><![CDATA[Hit limit while retracted]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="13">HeightSensorPosError</Name>
+				<DisplayName TxtId=""><![CDATA[Height sensor position error or head chattering]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="14">HodlPosError</Name>
+				<DisplayName TxtId=""><![CDATA[Hold position error]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="15">FailedToRetract</Name>
+				<DisplayName TxtId=""><![CDATA[Failed to retract]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="16">AssistGasLowError</Name>
+				<DisplayName TxtId=""><![CDATA[Assist gas under pressure]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="17">AssistGasLowWarning</Name>
+				<DisplayName TxtId=""><![CDATA[Assist gas nearing under pressure error]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="18">AssistGasHighWarning</Name>
+				<DisplayName TxtId=""><![CDATA[Assist gas over pressure]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{7C3C2496-A678-4DD1-8743-186ECF862866}"/>
+				<Hide GUID="{E145416D-08A6-4CEC-93E3-D571335F4D5A}"/>
+				<Hide GUID="{36191D74-1A7B-4B45-A7E1-DD78D74C7EEC}"/>
+				<Hide GUID="{287A40E0-3169-4085-961A-7441BDA904D6}"/>
+				<Hide GUID="{567EC957-A9DF-4D03-8BCA-AB08AEEBB326}"/>
+				<Hide GUID="{0B55A683-7103-4A70-96DE-E0A8A0EE169C}"/>
+				<Hide GUID="{98990219-027F-47FD-AF2F-37FAD61D9921}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{097D82CC-E325-4E57-A423-D7E1C3824062}" Namespace="Summo" PersistentType="true">LaserUnitEventClass</Name>
+			<DisplayName TxtId=""><![CDATA[Laser Unit]]></DisplayName>
+			<EventId>
+				<Name Id="1">SystemError</Name>
+				<DisplayName TxtId=""><![CDATA[The laser is in an alarm state]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">ProgramInterrupted</Name>
+				<DisplayName TxtId=""><![CDATA[Indicates the laser program ended prematurely]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="3">SystemWarning</Name>
+				<DisplayName TxtId=""><![CDATA[The laser is in a warning state]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="4">LaserError</Name>
+				<DisplayName TxtId=""><![CDATA[Abnormal condition detected in laser]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="5">LaserWarning</Name>
+				<DisplayName TxtId=""><![CDATA[Abnormal condition leading to a warning condition]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="6">ChillerError</Name>
+				<DisplayName TxtId=""><![CDATA[The chiller is in an error state]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="7">ChillerWarning</Name>
+				<DisplayName TxtId=""><![CDATA[Indicates chiller is approaching the alarm state]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="8">SafetyOpen</Name>
+				<DisplayName TxtId=""><![CDATA[Safety loop is open]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="9">ChannelAlarm</Name>
+				<DisplayName TxtId=""><![CDATA[The specified optical channel has an alarm]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="10">SlotError</Name>
+				<DisplayName TxtId=""><![CDATA[Invalid laser or channel number]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="11">DoorOpen</Name>
+				<DisplayName TxtId=""><![CDATA[Work cell door for selected optical channel is open]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="12">ReservedModuleOn</Name>
+				<DisplayName TxtId=""><![CDATA[A reserved module has been activated]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="13">ReducedActiveModules</Name>
+				<DisplayName TxtId=""><![CDATA[Laser operating with reduced nominal power]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="14">WatchdogError</Name>
+				<DisplayName TxtId=""><![CDATA[Laser is not connected]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="15">ExternalModeError</Name>
+				<DisplayName TxtId=""><![CDATA[Laser not in robot mode]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{A27BBF45-A260-41C0-B743-4545EA733DD9}"/>
+				<Hide GUID="{A19FB44D-95BA-4FA8-B8FA-AEB4DAABD46C}"/>
+				<Hide GUID="{A4B1824E-0C5E-4594-944B-C456B53A04CA}"/>
+				<Hide GUID="{8BA01D60-F4EF-4432-968E-7787BB6B2C5F}"/>
+				<Hide GUID="{EFC3EC21-2C73-4E33-AE3C-1CC1FB54B901}"/>
+				<Hide GUID="{D0F12AB2-7AC5-4F41-9E40-8E7EDC7BCD0D}"/>
+				<Hide GUID="{46171627-F7EB-4033-8731-7CE150CE5066}"/>
+				<Hide GUID="{D47550C7-FC7B-4045-A5FE-410636D7E808}"/>
+				<Hide GUID="{AF286E5D-86CB-4393-80E2-C5A4C9AAC0B9}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{ADB0AC2B-B17D-4770-BAB6-89FE7B957694}" Namespace="Summo" PersistentType="true">PneumaticEventClass</Name>
+			<DisplayName TxtId=""><![CDATA[Pneumatics]]></DisplayName>
+			<EventId>
+				<Name Id="1">WaitTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[Wait sensor timeout]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">WorkTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[Work sensor timeout]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="3">DoubleSensor</Name>
+				<DisplayName TxtId=""><![CDATA[Both sensor on simultaneously]]></DisplayName>
+				<Comment TxtId=""><![CDATA[This is a comment]]></Comment>
+				<DescriptionText TxtId=""><![CDATA[descrip text]]></DescriptionText>
+				<Severity>Error</Severity>
+				<CauseRemedy Idx="1">
+					<Cause TxtId=""><![CDATA[haha]]></Cause>
+					<Remedy TxtId=""><![CDATA[ahah]]></Remedy>
+				</CauseRemedy>
+			</EventId>
+			<EventId>
+				<Name Id="4">WaitSlow</Name>
+				<DisplayName TxtId=""><![CDATA[Wait sensor slow. Took {0} compared to normal of {1}]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="5">WorkSlow</Name>
+				<DisplayName TxtId=""><![CDATA[Work sensor slow. Took {0} compared to normal of {1}]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="6">WaitFlickerTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[Wait sensor flickering timeout]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="7">WorkFlickerTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[Work sensor flickering timeout]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{40E9F7E1-7934-4F54-9C09-88731E981403}"/>
+				<Hide GUID="{966B00CF-6BE1-4EDC-8868-A4FB1AC35D67}"/>
+				<Hide GUID="{4A0D03F3-C85B-44A6-B9F6-526E95CD48EC}"/>
+				<Hide GUID="{71A197EE-12DD-412F-9990-225F1CEDB49E}"/>
+				<Hide GUID="{62DFF122-AD4A-40B5-AF8A-9DD769EBCE73}"/>
+				<Hide GUID="{47A1CCFD-D578-4D94-8868-38858F30E5C7}"/>
+				<Hide GUID="{5F297ADC-F57E-4128-AEA9-155F5FE3E700}"/>
+				<Hide GUID="{9BA531A3-C42A-45CB-BAB6-9458EDAC88C5}"/>
+				<Hide GUID="{0057B76F-E60C-4F50-978C-148E88F02B7D}"/>
+				<Hide GUID="{A0EB1C9B-EB42-446F-BAA8-5C44ED076026}"/>
+				<Hide GUID="{8D2F1E3D-77E0-499C-9B5F-2BD3ABFAF493}"/>
+				<Hide GUID="{17496723-A5D9-43EF-83A4-81539BFC988E}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{FDCC18A6-9B01-40AD-92EB-BD68F2FBF4AE}" Namespace="Summo" PersistentType="true">ServoEventClass</Name>
+			<DisplayName TxtId=""><![CDATA[Servos]]></DisplayName>
+			<EventId>
+				<Name Id="1">ZeroVelocity</Name>
+				<DisplayName TxtId=""><![CDATA[Motion requested with zero velocity]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">ItlOff</Name>
+				<DisplayName TxtId=""><![CDATA[Motion requested with Itl off]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="3">PTPOff</Name>
+				<DisplayName TxtId=""><![CDATA[Motion requested with ptp off]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="4">ZeroTorque</Name>
+				<DisplayName TxtId=""><![CDATA[Motion requested with zero torque]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="5">MoveContSoftLimits</Name>
+				<DisplayName TxtId=""><![CDATA[Continuous motion requested with soft limits enabled]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="6">MoveWhileOtherMove</Name>
+				<DisplayName TxtId=""><![CDATA[Move requested while another active]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="7">OverAcc</Name>
+				<DisplayName TxtId=""><![CDATA[Default axis acc is over drive max acc]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="8">OverDecel</Name>
+				<DisplayName TxtId=""><![CDATA[Default axis decel is over drive max decel]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="9">OverJerkSafety</Name>
+				<DisplayName TxtId=""><![CDATA[Jerk setting higher than estop/halt jerk]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="10">OverAccSafety</Name>
+				<DisplayName TxtId=""><![CDATA[Acc setting higher than estop/halt acc]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="11">UnlinkedMaxTorque</Name>
+				<DisplayName TxtId=""><![CDATA[Cannot set max torque if unlinked]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{B997E055-2644-43FC-A0EE-95981E6D1E58}"/>
+				<Hide GUID="{2A8CC608-EC55-478E-8E3F-FA4F3E983056}"/>
+				<Hide GUID="{309B9EA0-BC54-41B0-8A37-A2A5C6AA61C5}"/>
+				<Hide GUID="{42B69210-7C8D-4C5C-A4DD-8B4C35FDBF53}"/>
+				<Hide GUID="{68165490-4A70-4B73-BCC9-23D4B24017E6}"/>
+				<Hide GUID="{08E66CDD-1C4A-4019-832E-12B9037D82A2}"/>
+				<Hide GUID="{6BFDD660-811F-4B76-810B-2AE93E906DDC}"/>
+				<Hide GUID="{42B69D20-A28C-4952-A316-551E08EF03C4}"/>
+				<Hide GUID="{B20D7A4E-5CB9-496C-B792-CDC24C11F88B}"/>
+				<Hide GUID="{DF7DE1FC-D2D9-4926-ACD9-B336F7B3945B}"/>
+				<Hide GUID="{A7BC34D5-1CF3-4854-877D-242023C13787}"/>
+				<Hide GUID="{8234322E-B436-427E-8E07-A71DC3BA2BAA}"/>
+				<Hide GUID="{CFC40B1F-8F8C-47FD-8A59-189944F553C7}"/>
+				<Hide GUID="{5A8E90C8-9B33-4659-8A96-B7154DCBAD95}"/>
+				<Hide GUID="{09DC64DB-2B99-4BBC-BA07-8F182DC1C325}"/>
+				<Hide GUID="{A998D3C7-2DEE-4A12-BFA5-748648BAC5DD}"/>
+				<Hide GUID="{6E2B8D6D-BC83-4A01-A63D-CE458216D9B7}"/>
+				<Hide GUID="{BE6BCC71-DFF1-448E-8B93-5E23F3728EA6}"/>
+				<Hide GUID="{78F9F91E-59B6-472C-A5BE-2FD41BD7FF7C}"/>
+				<Hide GUID="{583800E5-0B80-4A48-AFC6-BDAE1F1A8E31}"/>
+				<Hide GUID="{FC6AC742-43D3-427B-B2CD-83ECAF900186}"/>
+				<Hide GUID="{53EB8CAF-2F4A-44AB-BB8F-AE4AD705A836}"/>
+				<Hide GUID="{F77B73BE-FA48-4112-9C9E-1F304DC52B09}"/>
+				<Hide GUID="{25AB2D16-746A-42A8-8C3E-EE92F5EECC7D}"/>
+				<Hide GUID="{58170BBE-85FA-417E-AE22-846436FA548E}"/>
+				<Hide GUID="{0A9A3FE0-D59F-4A91-AE80-F70E92B2AA97}"/>
+				<Hide GUID="{68C0FB3D-0FE3-4147-A46A-D68400A96315}"/>
+				<Hide GUID="{61CF1B39-2F73-4217-91D2-A542C5571DDB}"/>
+				<Hide GUID="{53246335-3983-4A80-85F8-DE063475CB54}"/>
+				<Hide GUID="{BBC30C97-B0E5-414C-B450-3D0F1B0FE56A}"/>
+				<Hide GUID="{2EDE97EB-D26D-420E-B8B5-CC71274AEC26}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{7A87DD48-EA59-4A17-87FC-E079FAC9A2EF}" Namespace="Summo" PersistentType="true">MachineEventClass</Name>
+			<DisplayName TxtId=""><![CDATA[Machine]]></DisplayName>
+			<EventId>
+				<Name Id="1">LubeOffline</Name>
+				<DisplayName TxtId=""><![CDATA[Lube unit is offline]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">LubeError</Name>
+				<DisplayName TxtId=""><![CDATA[Lube unit error]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="3">FailedAdsConversion</Name>
+				<DisplayName TxtId=""><![CDATA[ADS error {0}]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="4">dbCapacity80</Name>
+				<DisplayName TxtId=""><![CDATA[Database buffer filled to {0} out of {1}]]></DisplayName>
+				<Comment TxtId=""><![CDATA[Increase number of workers or buffer capacity or improve network connection]]></Comment>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="5">ethercatnoop</Name>
+				<DisplayName TxtId=""><![CDATA[EtherCAT device {0} not in OP mode]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="6">ethercatnotconnected</Name>
+				<DisplayName TxtId=""><![CDATA[EtherCAT device {0} link missing/error]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="7">robotrestartitl</Name>
+				<DisplayName TxtId=""><![CDATA[Cannot restart in auto mode in non safe position]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="8">restartUnGrip</Name>
+				<DisplayName TxtId=""><![CDATA[Cannot restart station with ungriped part]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="9">MachineEventClassEvent9</Name>
+				<DisplayName TxtId=""><![CDATA[MachineEventClassEvent9_DisplayText]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="10">MachineEventClassEvent10</Name>
+				<DisplayName TxtId=""><![CDATA[MachineEventClassEvent10_DisplayText]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="11">MachineEventClassEvent11</Name>
+				<DisplayName TxtId=""><![CDATA[MachineEventClassEvent11_DisplayText]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="12">MachineEventClassEvent12</Name>
+				<DisplayName TxtId=""><![CDATA[MachineEventClassEvent12_DisplayText]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="13">MachineEventClassEvent13</Name>
+				<DisplayName TxtId=""><![CDATA[MachineEventClassEvent13_DisplayText]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="14">MachineEventClassEvent14</Name>
+				<DisplayName TxtId=""><![CDATA[MachineEventClassEvent14_DisplayText]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="15">MachineEventClassEvent15</Name>
+				<DisplayName TxtId=""><![CDATA[MachineEventClassEvent15_DisplayText]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="16">MachineEventClassEvent16</Name>
+				<DisplayName TxtId=""><![CDATA[MachineEventClassEvent16_DisplayText]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="17">MachineEventClassEvent17</Name>
+				<DisplayName TxtId=""><![CDATA[MachineEventClassEvent17_DisplayText]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="18">MachineEventClassEvent18</Name>
+				<DisplayName TxtId=""><![CDATA[MachineEventClassEvent18_DisplayText]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="19">MachineEventClassEvent19</Name>
+				<DisplayName TxtId=""><![CDATA[MachineEventClassEvent19_DisplayText]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="20">MachineEventClassEvent20</Name>
+				<DisplayName TxtId=""><![CDATA[MachineEventClassEvent20_DisplayText]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{15537329-032C-4236-8496-6334DE9832FA}"/>
+				<Hide GUID="{3E4EF3BE-05EA-4E2F-B6A1-97A3982DCB40}"/>
+				<Hide GUID="{A4AC9F90-7EBC-4668-A78B-C171FD210D51}"/>
+				<Hide GUID="{92A31B1C-5416-40BD-990A-13A9B2E705CB}"/>
+				<Hide GUID="{AB02B85F-5E10-4569-B2F7-F967A645D7A6}"/>
+				<Hide GUID="{262E68B1-0696-415C-A1E1-DA90CEB95B78}"/>
+				<Hide GUID="{1B10F32F-37A1-466C-95E0-59CA8C982CAA}"/>
+				<Hide GUID="{C147F215-B770-47FC-8493-335877EC09EC}"/>
+				<Hide GUID="{111C17E2-EE3B-436D-BC6E-F9FE6598C28B}"/>
+				<Hide GUID="{C3F97C46-16B7-4607-8409-82D77CDF90C7}"/>
+				<Hide GUID="{165ECD33-5FB2-465F-8020-3C1268AE240E}"/>
+				<Hide GUID="{779F20D1-EE70-4449-BD8C-FE5956ADE6C4}"/>
+				<Hide GUID="{A926E37F-72C4-47A0-BB8D-34082276CC38}"/>
+				<Hide GUID="{0BA67293-5DB3-4FD2-9F5F-B64E4435E578}"/>
+				<Hide GUID="{58C51155-059D-4E78-A2B4-3DB06726B1A3}"/>
+				<Hide GUID="{997C2DD6-34AE-409F-8F2D-5660C75386CF}"/>
+				<Hide GUID="{6D3F1C1D-03E5-45B5-92F4-A03A686BE362}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{04DA2E59-16E2-48B3-B823-4950F0EF509C}" Namespace="Summo" PersistentType="true">UpsEventClass</Name>
+			<DisplayName TxtId=""><![CDATA[UPS]]></DisplayName>
+			<EventId>
+				<Name Id="1">batteryReplace</Name>
+				<DisplayName TxtId=""><![CDATA[Replace battery]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">statusUnknown</Name>
+				<DisplayName TxtId=""><![CDATA[Unknown battery status]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="3">comFail</Name>
+				<DisplayName TxtId=""><![CDATA[Communication failed]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="4">comUnknown</Name>
+				<DisplayName TxtId=""><![CDATA[Unknown communication state]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="5">batteryLow</Name>
+				<DisplayName TxtId=""><![CDATA[Low battery charge]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="6">batteryCritical</Name>
+				<DisplayName TxtId=""><![CDATA[Critical battery charge]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="7">batteryNo</Name>
+				<DisplayName TxtId=""><![CDATA[No battery]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="8">fanError</Name>
+				<DisplayName TxtId=""><![CDATA[Fan error]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="9">overtemp</Name>
+				<DisplayName TxtId=""><![CDATA[Overtemp]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="10">service</Name>
+				<DisplayName TxtId=""><![CDATA[Service Interval]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="11">undertemp</Name>
+				<DisplayName TxtId=""><![CDATA[Undertemp]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="12">fuseNok</Name>
+				<DisplayName TxtId=""><![CDATA[Fuse not ok]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="13">cfgError</Name>
+				<DisplayName TxtId=""><![CDATA[Configuration error]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{A0DD8BDF-8FA7-48CB-AA2C-44925041466A}"/>
+				<Hide GUID="{1BDAE37A-6ED8-446C-B7FF-10B47BE97C11}"/>
+				<Hide GUID="{E579AD06-5EBC-47EC-AC35-71AA05B2DA7F}"/>
+				<Hide GUID="{CA3BAF4B-524E-4A02-9F49-7EE519FE1481}"/>
+				<Hide GUID="{FD5E4261-7CA9-496A-8283-D4FAD921F0B4}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{481FC193-C79E-4342-96A0-F0FB8B01B5D9}">ADSEventClass</Name>
+			<DisplayName TxtId=""><![CDATA[ADS Erros]]></DisplayName>
+			<BitSize>0</BitSize>
+			<BaseType GUID="{FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF}"/>
+			<Hides>
+				<Hide GUID="{24EA61C9-CAA4-4E2B-A20F-FF95796EE28E}"/>
+				<Hide GUID="{C65CB5E0-7445-48DB-8EDE-483EE586BC3C}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{84E21357-EEA5-43E7-88FE-B906382C0BB7}" Namespace="Summo" PersistentType="true">AdsEventClass</Name>
+			<DisplayName TxtId=""><![CDATA[Ads Event Class]]></DisplayName>
+			<EventId>
+				<Name Id="#x4104">_4104</Name>
+				<DisplayName TxtId=""><![CDATA[M-function index not allowed]]></DisplayName>
+				<Comment TxtId=""><![CDATA[Unacceptable M-function (not 0...159) detected at the execution level.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4106">_4106</Name>
+				<DisplayName TxtId=""><![CDATA[Not ready]]></DisplayName>
+				<Comment TxtId=""><![CDATA[The function is not presently available, because a similar function is already being processed. This is usually the result of access conflicts: more than one instance wants to issue commands to the channel. This can, for example, be the consequence of an incorrect PLC program.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4107">_4107</Name>
+				<DisplayName TxtId=""><![CDATA[Function/command not supported]]></DisplayName>
+				<Comment TxtId=""><![CDATA[A requested function or command is not supported by the channel.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4110">_4110</Name>
+				<DisplayName TxtId=""><![CDATA[Error opening a file]]></DisplayName>
+				<Comment TxtId=""><![CDATA[The specified file does not exist. Sample: NC program unknown.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4111">_4111</Name>
+				<DisplayName TxtId=""><![CDATA[Syntax error during loading]]></DisplayName>
+				<Comment TxtId=""><![CDATA[The NC has found a syntax error when loading an NC program.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4112">_4112</Name>
+				<DisplayName TxtId=""><![CDATA[Syntax error during interpretation]]></DisplayName>
+				<Comment TxtId=""><![CDATA[The NC has found a syntax error when executing an NC program.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4113">_4113</Name>
+				<DisplayName TxtId=""><![CDATA[Missing subroutine]]></DisplayName>
+				<Comment TxtId=""><![CDATA[The NC has found a missing subroutine while loading.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4114">_4114</Name>
+				<DisplayName TxtId=""><![CDATA[Loading buffer of interpreter is too small]]></DisplayName>
+				<Comment TxtId=""><![CDATA[The capacity of the interpreter loading buffer has been exceeded.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4118">_4118</Name>
+				<DisplayName TxtId=""><![CDATA[Error while loading the NC program]]></DisplayName>
+				<Comment TxtId=""><![CDATA[The maximum number of loadable NC programs has been reached.
+Possible cause:
+Too many sub-programs were loaded from a main program.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4119">_4119</Name>
+				<DisplayName TxtId=""><![CDATA[Error while loading the NC program]]></DisplayName>
+				<Comment TxtId=""><![CDATA[The program name is too long.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4120">_4120</Name>
+				<DisplayName TxtId=""><![CDATA[Divide by zero]]></DisplayName>
+				<Comment TxtId=""><![CDATA[The NC encountered a computation error during execution: division by 0.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4121">_4121</Name>
+				<DisplayName TxtId=""><![CDATA[Invalid circle parameterization]]></DisplayName>
+				<Comment TxtId=""><![CDATA[The NC encountered a computation error during execution: The specified circle cannot be calculated.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4142">_4142</Name>
+				<DisplayName TxtId=""><![CDATA[Unacceptable M-function index]]></DisplayName>
+				<Comment TxtId=""><![CDATA[The NC has encountered an unacceptable M-function (not 0...159) during execution.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4170">_4170</Name>
+				<DisplayName TxtId=""><![CDATA[Error while loading: Invalid parameter]]></DisplayName>
+				<Comment TxtId=""><![CDATA[The NC has found an invalid parameter while loading an NC program.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x42a0">_42a0</Name>
+				<DisplayName TxtId=""><![CDATA[Group/axis consequential error]]></DisplayName>
+				<Comment TxtId=""><![CDATA[Consequential error resulting from another causative error related to another axis within the group. Group/axis consequential errors can occur in relation to master/slave couplings or with multiple axis interpolating DXD groups. If, for instance, it is detected that the following error limit of a master axis has been exceeded, then this consequential error is assigned to all the other master axes and slave axes in this group.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4466">_4466</Name>
+				<DisplayName TxtId=""><![CDATA[Invalid IO data for more than n subsequent NC cycles (encoder)]]></DisplayName>
+				<Comment TxtId=""><![CDATA[The axis (encoder) has detected for more than n subsequent NC cycles (NC SAF task) invalid encoder IO data (e.g. n=3). Typically, regarding an EtherCAT member it is about a Working Counter Error (WcState) what displays that data transfer between IO device and controller is disturbed.
+If this error is set for a longer period of time continuously, this situation can lead to losing the axis reference (the “homed” flag will be reset and the encoder will get the state “unreferenced”).
+Possible reasons for this error: An EtherCAT slave may have left its OP state or there is a too high real time usage or a too high real time jitter.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4550">_4550</Name>
+				<DisplayName TxtId=""><![CDATA[Following error monitoring (position)]]></DisplayName>
+				<Comment TxtId=""><![CDATA[With active following error monitoring (position) a following error exceedance has occurred, whose magnitude is greater than the following error window, and whose duration is longer than the parameterized following error filter time.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4551">_4551</Name>
+				<DisplayName TxtId=""><![CDATA[Following error monitoring (velocity)]]></DisplayName>
+				<Comment TxtId=""><![CDATA[With active following error monitoring (velocity) a velocity following error exceedance has occurred, whose magnitude is greater than the following error window, and whose duration is longer than the parameterized following error filter time.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4650">_4650</Name>
+				<DisplayName TxtId=""><![CDATA[Drive hardware not ready to operate]]></DisplayName>
+				<Comment TxtId=""><![CDATA[The drive hardware is not ready for operation. The following are possible causes:
+- the drive is in the error state (hardware error)
+- the drive is in the start-up phase (e.g. after an axis reset that was preceded by a hardware error)
+- the drive is missing the controller enable (ENABLE)
+Note: The time required for "booting" a drive after a hardware fault can amount to several seconds.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4651">_4651</Name>
+				<DisplayName TxtId=""><![CDATA[Error in the cyclic communication of the drive (Life Counter)]]></DisplayName>
+				<Comment TxtId=""><![CDATA[Reasons for this could be an interrupted fieldbus or a drive that is in the error state.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4655">_4655</Name>
+				<DisplayName TxtId=""><![CDATA[Invalid IO data for more than ‘n’ continuous NC cycles]]></DisplayName>
+				<Comment TxtId=""><![CDATA[The axis (encoder or drive) has detected invalid IO data (e.g. n=3) for more than ‘n’ continuous NC cycles (NC SAF task).
+EtherCAT fieldbus: ‘working counter error ('WCState')’As a result it is possible that the encoder referencing flag will be reset to FALSE (i.e. the encoder is given the status ‘unreferenced’).
+Lightbus fieldbus: ‘CDL state error ('CdlState')’
+As a result it is possible that the encoder calibration flag will set to FALSE (that means uncalibrated).]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4460">_4460</Name>
+				<DisplayName TxtId=""><![CDATA[Minimum Software Position Limit (Axis Start)]]></DisplayName>
+				<Comment TxtId=""><![CDATA[While monitoring of the minimum software position limit is active, an axis start has been performed towards a position that lies below the minimum software position limit.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4461">_4461</Name>
+				<DisplayName TxtId=""><![CDATA[Maximum Software Position Limit (Axis Start)]]></DisplayName>
+				<Comment TxtId=""><![CDATA[While monitoring of the maximum software position limit is active, an axis start has been performed towards a position that lies above the maximum software position limit.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4462">_4462</Name>
+				<DisplayName TxtId=""><![CDATA[Minimum Software Position Limit (Positioning Process)]]></DisplayName>
+				<Comment TxtId=""><![CDATA[While monitoring of the minimum software position limit is active, the actual position has fallen below the minimum software position limit. In case of servo axes, which are moved continuously, this limit is expanded by the magnitude of the parameterized following error position window.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4463">_4463</Name>
+				<DisplayName TxtId=""><![CDATA[Maximum Software Position Limit (Positioning Process)]]></DisplayName>
+				<Comment TxtId=""><![CDATA[While monitoring of the maximum software position limit is active, the actual position has exceeded the maximum software position limit. In case of servo axes, which are moved continuously, this limit is expanded by the magnitude of the parameterized following error position window.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="#x4260">_4260</Name>
+				<DisplayName TxtId=""><![CDATA[Controller enable not present]]></DisplayName>
+				<Comment TxtId=""><![CDATA[Controller enable for the axis or for a coupled slave axis is not present (see axis interface PlcToNc). This error occurs if the controller enable is withdrawn while an axis or a group of axes (also a master/slave group) is being actively positioned. The error also occurs if a PTP axis or a coupled slave axis is started without controller enable.]]></Comment>
+				<Severity>Error</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{5B09171F-0FAF-400C-8FEB-664934F9C0E3}"/>
+				<Hide GUID="{7FCB8F92-C525-4A9A-AC8F-0E7E2B88907B}"/>
+				<Hide GUID="{09D1B307-6E2A-4A41-A4DA-516D4A813666}"/>
+				<Hide GUID="{95115C75-3520-4F03-9060-4E14806AAF1B}"/>
+				<Hide GUID="{575D136E-D6DA-4BE6-B8DC-05071A067084}"/>
+				<Hide GUID="{75A1BEFA-44B1-4E8B-A12D-24C2EBBD01E5}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{991EE2EC-DD79-4AC0-A8C2-4200D86A1852}" Namespace="Summo" PersistentType="true">HashEventClass</Name>
+			<DisplayName TxtId=""><![CDATA[Hash Event Class]]></DisplayName>
+			<EventId>
+				<Name Id="1">FillLimitWarn</Name>
+				<DisplayName TxtId=""><![CDATA[Reached hash fill warning of {0} / {1}]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">FillLimitError</Name>
+				<DisplayName TxtId=""><![CDATA[Reached hash fill limit of {0} / {1}]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="3">InsertCollision</Name>
+				<DisplayName TxtId=""><![CDATA[{0} collision on insertion, but ok]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="4">KeyError</Name>
+				<DisplayName TxtId=""><![CDATA[Key "{0}" does not exist in hash]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="5">EmptyKey</Name>
+				<DisplayName TxtId=""><![CDATA[Cannot get/set an empty key '']]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{47F7DF0B-0BF3-4293-86BD-CBC49BE0F98C}"/>
+				<Hide GUID="{B6ED3CBB-0877-4D95-AE62-7838A8ADB516}"/>
+				<Hide GUID="{21BF833E-207C-4DE5-A0A9-57A518A0C4AA}"/>
+				<Hide GUID="{29139125-CD30-4172-A1E8-0862D71258BE}"/>
+				<Hide GUID="{BD047DA0-74C6-42E9-819B-9A4BFA26BB7D}"/>
+				<Hide GUID="{3B2C2B62-6E5F-4747-859E-797DE2A09EAD}"/>
+				<Hide GUID="{1E14D6D6-F49D-459A-80CC-C221127EA712}"/>
+			</Hides>
+		</DataType>
+	</DataTypes>
+</TcModuleClass>

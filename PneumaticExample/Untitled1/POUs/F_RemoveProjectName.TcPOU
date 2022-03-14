@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <POU Name="F_RemoveProjectName" Id="{c59f1d5c-137d-4730-a01c-a187e653e51b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_RemoveProjectName : STRING(255)
+VAR_INPUT
+	path	: STRING(255);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[///////////////////////////////////////////////////////////////////////////////
+// F_RemoveProjectName
+//
+// v1.0.0
+///////////////////////////////////////////////////////////////////////////////
+
+F_RemoveProjectName := DELETE(path, LEN(TwinCAT_SystemInfoVarList._AppInfo.ProjectName) + FIND(path, TwinCAT_SystemInfoVarList._AppInfo.ProjectName), 1);
+F_RemoveProjectName := F_ToLCase(F_RemoveProjectName);
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

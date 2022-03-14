@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <POU Name="FB_StateManager" Id="{f8c3c008-dbb7-4eb7-8132-314b02c88918}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_StateManager
+VAR_IN_OUT
+	state		: INT;
+END_VAR
+VAR
+	data		: ARRAY [1..25] OF ST_StateHistory;
+	prevState	: INT;
+	stateStart	: TIME;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[///////////////////////////////////////////////////////////////////////////////
+// FB_StateManager
+//
+// v1.0.0
+//
+// The first few state changes will have UTC time until the tz info is fetched.
+// Users Logger to get timezone information
+///////////////////////////////////////////////////////////////////////////////
+
+IF state <> prevState THEN
+	data[1].stateTime := stateTime;
+	MEMCPY(ADR(data) + SIZEOF(ST_StateHistory), ADR(data), SIZEOF(data) - SIZEOF(ST_StateHistory));
+	data[1].state := state;
+	data[1].stateTime := T#0MS;
+	prevState := state;
+
+	// If available set, otherwise too expensive to compute
+	{IF defined (variable: SysTime)}
+	data[1].ts := SysTime.systemTime;
+	{END_IF}
+
+	// If available use, but compute if not as needed for output
+	// Setting globally can allow fairly significant savings
+	{IF defined (variable: CurTime)}
+	stateStart := CurTime;
+	{ELSE}
+	stateStart := TIME();
+	{END_IF}
+END_IF
+]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{5cc3ff23-33e3-4b35-becd-682e8a96ed50}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+stateStart := TIME();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="stateTime" Id="{85878c6c-4a9f-4ff1-b78e-e2f638d91681}">
+      <Declaration><![CDATA[PROPERTY stateTime : TIME]]></Declaration>
+      <Get Name="Get" Id="{8a0b9f85-db21-44e9-bca9-291016a570a9}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+{IF defined (variable: CurTime)}
+stateTime := CurTime - stateStart;
+{ELSE}
+stateTime := TIME() - stateStart;
+{END_IF}
+]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

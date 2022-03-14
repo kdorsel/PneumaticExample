@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <POU Name="MAIN" Id="{d7f103ab-3e25-427e-8317-c3ab179e225d}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	pneuma: FB_Pneumatic(enDB := FALSE);
+	state: INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+pneuma();
+
+CASE state OF
+	5:
+		IF pneuma.doWait() THEN
+			state := 0;
+		END_IF
+	10:
+		IF pneuma.doWork() THEN
+			state := 0;
+		END_IF
+END_CASE
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

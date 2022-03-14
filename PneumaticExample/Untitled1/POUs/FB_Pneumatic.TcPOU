@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <POU Name="FB_Pneumatic" Id="{17104f4b-15fb-0997-1ca2-37a83acd77ab}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Pneumatic EXTENDS FB_BaseDevice IMPLEMENTS I_Pneumatic
+VAR_INPUT
+	waitDelay			: TIME := T#50MS;
+	workDelay			: TIME := T#50MS;
+	waitItl				: BOOL := TRUE;
+	workItl				: BOOL := TRUE;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_enDB				: BOOL;
+	_workText			: STRING(255) := 'Work';
+	_waitText			: STRING(255) := 'Wait';
+	_workUnMapped		: BOOL;
+	_waitUnMapped		: BOOL;
+	_first				: BOOL := TRUE;
+
+	workProx	AT %I*	: BOOL;
+	waitProx	AT %I*	: BOOL;
+	goWork		AT %Q*	: BOOL;
+	goWait		AT %Q*	: BOOL;
+	goWorkTm			: TON_PAUSE;
+	goWaitTm			: TON_PAUSE;
+	inWorkTm			: TON;
+	inWaitTm			: TON;
+	isWorkTrig			: R_TRIG;
+	isWaitTrig			: R_TRIG;
+	isTempCancel		: BOOL;
+	wasWork				: BOOL;
+	wasWait				: BOOL;
+	tt					: INT;
+	avg					: ARRAY [1..2] OF LREAL;
+	lastQry				: TIME;
+END_VAR
+VAR CONSTANT
+	cmdWait				: STRING(255) := 'insert into pneumatics (ts, device, direction, time) values (now(), $'%s$', $'wait$', %d);';
+	cmdWork				: STRING(255) := 'insert into pneumatics (ts, device, direction, time) values (now(), $'%s$', $'work$', %d);';
+	qryGet				: STRING(255) := 'select avg(time) from pneumatics where device = $'%s$' and ts > now() - interval $'30 days$' group by direction order by direction;';
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[///////////////////////////////////////////////////////////////////////////////
+// FB_Pneumatic
+//
+// v1.0.0
+//
+///////////////////////////////////////////////////////////////////////////////
+
+inWorkTm(IN := work, PT := workDelay);
+inWaitTm(IN := wait, PT := waitDelay);
+
+CASE state OF
+	0:
+		first();
+
+		{IF defined (variable: DB.Ack)}
+		IF _enDB AND_THEN TIME() - lastQry > T#24H AND_THEN NOT DB.Ack.busy THEN
+			// Start it here to trigger its busy so no one else can take it
+			DB.Ack.execRet1(ADR(qryGet), ADR(avg), SIZEOF(avg), F_STRING(_sid));
+			state := 10;
+		ELSE
+			state := 1000;
+		END_IF
+		{ELSE}
+		state := 1000;
+		{END_IF}
+	10:
+		{IF defined (variable: DB.Ack)}
+		// Continue running until result
+		IF DB.Ack.done OR_ELSE DB.Ack.error THEN
+			// If fails the avg will stay at 0 and will not be used
+			lastQry := TIME();
+			state := 1000;
+		END_IF
+		{ELSE}
+		state := 1000;
+		{END_IF}
+	1000:
+		isWorkTrig(CLK := isWork);
+		IF isWorkTrig.Q AND goWork THEN
+			tt := TO_INT(goWorkTm.ET);
+			{IF defined (variable: DB.Pool)}
+			IF _enDb THEN
+				DB.Pool.exec2(ADR(cmdWork), TRUE, F_STRING(_sid), F_INT(tt));
+				IF TO_LREAL(goWorkTm.ET) > avg[2] * 1.3 AND avg[2] > 0 THEN
+					msg.CreateEx(TC_EVENTS.PneumaticEventClass.WorkSlow, 0);
+					msg.ipArguments.Clear().AddInt(TO_INT(goWorkTm.ET)).AddLReal(TO_INT(avg[2]));
+					msg.Send(0);
+				END_IF
+			END_IF
+			{END_IF}
+		END_IF
+		isWaitTrig(CLK := isWait);
+		IF isWaitTrig.Q AND goWait THEN
+			tt := TO_INT(goWaitTm.ET);
+			{IF defined (variable: DB.Pool)}
+			IF _enDb THEN
+				DB.Pool.exec2(ADR(cmdWait), TRUE, F_STRING(_sid), F_INT(tt));
+				IF TO_LREAL(goWaitTm.ET) > avg[1] * 1.3 AND avg[1] > 0 THEN
+					msg.CreateEx(TC_EVENTS.PneumaticEventClass.WaitSlow, 0);
+					msg.ipArguments.Clear().AddInt(TO_INT(goWaitTm.ET)).AddLReal(TO_INT(avg[1]));
+					msg.Send(0);
+				END_IF
+			END_IF
+			{END_IF}
+		END_IF
+		IF wait AND work THEN
+			alarm(TC_EVENTS.PneumaticEventClass.DoubleSensor);
+		END_IF
+		goWorkTm(IN := goWork, PAUSE := isWork, PT := T#5S);
+		goWaitTm(IN := goWait, PAUSE := isWait, PT := T#5S);
+		IF goWorkTm.Q THEN
+			IF goWorkTm.CNT > 1 THEN
+				alarm(TC_EVENTS.PneumaticEventClass.WorkFlickerTimeout);
+			ELSE
+				alarm(TC_EVENTS.PneumaticEventClass.WorkTimeout);
+			END_IF
+		END_IF
+		IF goWaitTm.Q THEN
+			IF goWaitTm.CNT > 1 THEN
+				alarm(TC_EVENTS.PneumaticEventClass.WaitFlickerTimeout);
+			ELSE
+				alarm(TC_EVENTS.PneumaticEventClass.WaitTimeout);
+			END_IF
+		END_IF
+	-1:
+		cancel();
+	-1000:
+		cancel();
+		state := 0;
+END_CASE
+
+SUPER^();
+]]></ST>
+    </Implementation>
+    <Property Name="busy" Id="{30cf0731-ace2-493d-9f69-1dbe70920b40}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'variable'}
+PROPERTY busy : BOOL]]></Declaration>
+      <Get Name="Get" Id="{6f92f64a-4eff-44c1-8b8f-35659b597425}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+busy := (goWork AND NOT isWork) OR (goWait AND NOT isWait);
+]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="cancel" Id="{2c319226-f0e5-027e-20e4-70cfc00bb4a3}">
+      <Declaration><![CDATA[METHOD cancel : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+goWait := goWork := FALSE;
+cancel := TRUE;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="done" Id="{1ada72fa-bb06-4479-b5ea-78d2a083e148}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'variable'}
+PROPERTY done : BOOL]]></Declaration>
+      <Get Name="Get" Id="{d1379cc3-6862-4a39-9344-e08c0405d2b7}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+done := (goWork AND isWork) OR (goWait AND isWait);
+]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="doWait" Id="{067fda56-e0b5-02bf-2f72-df1880dad43b}">
+      <Declaration><![CDATA[METHOD doWait : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF ready AND waitItl THEN
+	goWait := TRUE;
+	goWork := FALSE;
+END_IF
+doWait := isWait;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="doWork" Id="{9c0458df-838c-0161-3d5e-b28bec043272}">
+      <Declaration><![CDATA[METHOD doWork : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF ready AND workItl THEN
+	goWork := TRUE;
+	goWait := FALSE;
+END_IF
+doWork := isWork;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{4e07ff57-fffc-4c18-99fa-2a777848e26e}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains	: BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode		: BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	enDB			: BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+_enDB := enDB;
+lastQry := TIME() - T#23H59M;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="first" Id="{3d164bd5-b316-43b3-8de4-963a64672eaf}">
+      <Declaration><![CDATA[METHOD PROTECTED first : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+// Cannot be put into the FB_init method since it happens before
+// cyclic cycle and mapping status is not synch yet
+IF _first THEN
+	_workUnMapped := F_GetMappingStatus(ADR(workProx), SIZEOF(workProx)) = 0;
+	_waitUnMapped := F_GetMappingStatus(ADR(waitProx), SIZEOF(waitProx)) = 0;
+	_first := FALSE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="isWait" Id="{0359eeb9-b642-4f12-835a-5ee7a5b20874}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'variable'}
+PROPERTY isWait : BOOL]]></Declaration>
+      <Get Name="Get" Id="{fd934bc3-e554-47ff-be20-c4e4d3e26594}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+isWait := inWaitTm.Q;
+]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="isWork" Id="{2fcc1166-913a-4759-a915-790340b8140b}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'variable'}
+PROPERTY isWork : BOOL]]></Declaration>
+      <Get Name="Get" Id="{ab572eac-ed12-42f6-b8c2-0b1c76b9d07f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+isWork := inWorkTm.Q;
+]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="tempCancel" Id="{32559986-dd35-4bdd-aaa5-a024b9a4d72d}">
+      <Declaration><![CDATA[METHOD tempCancel : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF NOT isTempCancel THEN
+	wasWork := goWork;
+	wasWait := goWait;
+	isTempCancel := TRUE;
+END_IF
+cancel();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="tempContinue" Id="{4b2d2e61-268e-4bdd-b925-27116bb3b6d5}">
+      <Declaration><![CDATA[METHOD tempContinue : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF isTempCancel THEN
+	goWork := wasWork;
+	goWait := wasWait;
+	isTempCancel := FALSE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="wait" Id="{94d73ca2-3197-4fff-8529-73620496dc81}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'variable'}
+PROPERTY PROTECTED wait : BOOL]]></Declaration>
+      <Get Name="Get" Id="{c40592b2-0f96-4763-afc1-59f45d1be545}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+wait := waitProx OR_ELSE (_waitUnMapped AND goWait);
+]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="waitText" Id="{d7c842b5-d292-4959-ab3b-dc3cb342ca79}">
+      <Declaration><![CDATA[PROPERTY waitText : STRING(255)]]></Declaration>
+      <Get Name="Get" Id="{23dca054-4cef-474d-97c7-74d91c587795}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+waitText := _waitText;
+]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{95d5cd41-b872-4aef-9179-b9da9d2f01d1}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_waitText := waitText;
+]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="work" Id="{bcd786a3-1fa4-4e83-89dc-9b3c05563060}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'variable'}
+PROPERTY PROTECTED work : BOOL]]></Declaration>
+      <Get Name="Get" Id="{fea1cd55-d97a-46df-a5b8-7f3555838864}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+work := workProx OR_ELSE (_workUnMapped AND goWork);
+]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="workText" Id="{8db635e0-dc05-4766-8482-84a41494f408}">
+      <Declaration><![CDATA[PROPERTY workText : STRING(255)]]></Declaration>
+      <Get Name="Get" Id="{43a0c9e0-2183-4c70-8ca3-8b925576ec51}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+workText := _workText;
+]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{011bd535-fd82-491f-a14c-b27a95f8f600}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+_workText := workText;
+]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+  </POU>
+</TcPlcObject>
